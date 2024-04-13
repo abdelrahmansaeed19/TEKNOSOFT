@@ -1,0 +1,31 @@
+.chatbot-container {
+    width: 400px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    font-family: sans-serif;
+}
+
+.chat-window {
+    padding: 10px;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+.input-area {
+    display: flex;
+    padding: 10px;
+}
+
+#user-input {
+    flex-grow: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+#send-button {
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+}

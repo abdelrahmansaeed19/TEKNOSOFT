@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+    <style>
+        body {
+            background-image: url('/chat/templates/images.jpg');
+            background-color: #131314;
+        }
+    .chatbot-container {
+        width: 98%;
+        margin: 50px auto;
+
+        font-family: sans-serif;
+        background-color: #131314;
+    }
+
+    .chat-window {
+        padding: 10px;
+        height: 400px;
+        width: 100%;
+    }
+
+    .input-area {
+        display: flex;
+        padding: 10px;
+    }
+
+    #user-input {
+        color: white;
+        flex-grow: 1;
+        padding: 15px;
+        border-radius: 30px;
+        position: relative;
+        background-color: #1e1f20;
+        left: -1px;
+    }
+    .botText {
+        color: #6a00f5;
+    }
+
+    #send-button {
+        padding: 8px 12px;
+        background-color: #6a00f5;
+        color: white;
+        border: none;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center; color: #6a00f5;">Chatbot App</h1>
+    <div id="box" class="chatbot-container">
+        <div id="chatbox" style="overflow-y:scroll;" class="chat-window">
+            <p class="botText"><span>Chatbot: Hi there!</span></p>
+        </div>
+        <div id="userArea" class="input-area">
+            <input type="text" id="user-input" name="userMessage" placeholder="Type your message...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+    <!--<script src="script.js"></script>-->
+    <script>
+        function getUserMessage(){
+            var userText = $('#user-input').val();
+            if(userText == "") return;
+            var userHtml = "<p class='userMessage'><span style='color: white'>You: "+userText+"</span></p>";
+            $('#user-input').val("");
+            $('#chatbox').append(userHtml);
+            document.getElementById("userArea").scrollIntoView({block:'start',behavior:'smooth'});
+            $.get("/get",{userMessage: userText}).done(function(data){
+                var botHTML = "<p class='botText'><span>Chatbot: "+data+"</span></p>";
+                $('#chatbox').append(botHTML);
+            })
+            const scrollButton = document.getElementById("send-button");
+            const scrollableElement = document.getElementsById("chatbox");
+            scrollButton.addEventListener("click", function(){
+                scrollableElement.scrollTo(0, scrollableElement.scrollHeight);
+            });
+        }
+        $('#user-input').keypress(function(e){
+            if(e.which == 13){
+                getUserMessage();
+            }
+        })
+
+        $('#send-button').click(function(){
+            getUserMessage();
+        })
+    </script>
+</body>
+</html>
